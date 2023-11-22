@@ -1,9 +1,8 @@
 ﻿using System.Security.Cryptography;
-using System.Text;
 
 namespace Eliseev.FolderToJson
 {
-    public static class CryptographyUtility
+    internal static class CryptographyUtility
     {
         public static string EncryptString(string plainText, string password)
         {
