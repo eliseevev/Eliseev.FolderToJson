@@ -6,12 +6,13 @@ namespace Eliseev.FolderToJson
     {
         static void Main()
         {
-            string jsonPath = @"G:\Projects\ПСБ\CryptoProContracts\CryptoProRa\FilesData.json"; // Замените на путь к файлу JSON
-            string inputFolderPath = @"G:\Projects\ПСБ\CryptoProContracts\CryptoProRa\CryptoPro.Uc2"; // Замените на путь к папке для сохранения декодированных файлов
-            string outputFolderPath = @"G:\123"; // Замените на путь к папке для сохранения декодированных файлов
+            string jsonPath = @"G:\Projects\ПСБ\CryptoProContracts\CryptoProRa\FilesData.json";
+            string inputFolderPath = @"G:\Projects\ПСБ\CryptoProContracts\CryptoProRa\CryptoPro.Uc2";
+            string outputFolderPath = @"G:\1";
 
-            Converter.ToJson(inputFolderPath, jsonPath);
-            Converter.FromJson(jsonPath, outputFolderPath);
+            var password = "123g42gfvs2q@!@#E@!D";
+            Converter.ToJson(inputFolderPath, jsonPath, password);
+            Converter.FromJson(jsonPath, outputFolderPath, password);
         }
     }
 }

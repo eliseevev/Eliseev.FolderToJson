@@ -5,22 +5,22 @@ namespace Eliseev.FolderToJson
 {
     internal static class Converter
     {
-        public static void ToJson(string folderPath, string outputJsonPath)
+        public static void ToJson(string folderPath, string outputJsonPath, string password)
         {
             List<FileData> filesData = ConvertFilesToJson(folderPath);
-            SaveToJsonFile(filesData, outputJsonPath);
+            SaveToJsonFile(filesData, outputJsonPath, password);
 
             Console.WriteLine($"Files data converted and saved to {outputJsonPath}");
         }
 
-        public static void FromJson(string inputJsonPath, string outputFolderPath)
+        public static void FromJson(string inputJsonPath, string outputFolderPath, string password)
         {
             if (!Directory.Exists(outputFolderPath))
             {
                 Directory.CreateDirectory(outputFolderPath);
             }
 
-            List<FileData> filesData = ReadJsonFile(inputJsonPath);
+            List<FileData> filesData = ReadJsonFile(inputJsonPath, password);
             ConvertJsonToFiles(filesData, outputFolderPath);
 
             Console.WriteLine($"Files data read from {inputJsonPath} and decoded to {outputFolderPath}");
@@ -28,9 +28,11 @@ namespace Eliseev.FolderToJson
 
 
         #region FromJson
-        static List<FileData> ReadJsonFile(string inputPath)
+        static List<FileData> ReadJsonFile(string inputPath, string password)
         {
             string jsonContent = File.ReadAllText(inputPath);
+            jsonContent = CryptographyUtility.DecryptString(jsonContent, password);
+
             return JsonConvert.DeserializeObject<List<FileData>>(jsonContent);
         }
 
@@ -107,9 +109,11 @@ namespace Eliseev.FolderToJson
             }
         }
 
-        static void SaveToJsonFile(List<FileData> filesData, string outputPath)
+        static void SaveToJsonFile(List<FileData> filesData, string outputPath, string password)
         {
             string jsonContent = JsonConvert.SerializeObject(filesData, Formatting.Indented);
+
+            jsonContent = CryptographyUtility.EncryptString(jsonContent, password);
             File.WriteAllText(outputPath, jsonContent);
         }
 
